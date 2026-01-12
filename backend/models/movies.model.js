@@ -13,7 +13,6 @@ const movieSchema = new Schema({
             rating: {type: Number, required: true},
             votes: {type: Number, required: true},
         }
-    },
-    {versionKey: false});
+    },);
 
 module.exports = mongoose.model('Movie', movieSchema, 'movies2026');

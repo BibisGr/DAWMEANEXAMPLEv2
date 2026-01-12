@@ -26,4 +26,27 @@ movieCtrl.deleteMovie = async (req, res) =>{
         })
         .catch((err)=>res.status(400).json({status:err}));
 }
+
+// Crear una nueva película
+movieCtrl.addMovie = async (req, res) => {
+    const movie = Movie(req.body);
+    await movie.save()
+        .then((data) => res.status(201).json({status: 'Movie created Successfully'}))
+        .catch((err) => res.status(400).json({status: err}));
+};
+// Actualizar una película por su id
+movieCtrl.updateMovie = async (req, res) => {
+    const movie = req.body;
+    await Movie.findByIdAndUpdate(
+        req.params.id,
+        {$set:movie},
+        {new:true})
+        .then((data)=>{
+            if(data)res.status(200).json({status:'Movie updated Successfully'})
+            else res.status(404).json({status:'Movie not found'});
+        })
+        .catch((err)=>rest.status(400).json({status:err}));
+}
+
+
 module.exports = movieCtrl;

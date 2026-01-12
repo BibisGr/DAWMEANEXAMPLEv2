@@ -9,10 +9,10 @@ router.get('/', movieCtrl.getMovies);
 //ruta para obtener una película por su id
 router.get('/movie/:id', movieCtrl.getMovie);
 //ruta para crear una nueva película
-// router.post('/', movieCtrl.addMovie);
+router.post('/', movieCtrl.addMovie);
 //ruta para actualizar una película por su id
-// router.put('/:id', movieCtrl.updateMovie);
+router.put('/:id', movieCtrl.updateMovie);
 //ruta para eliminar una película por su id
-// router.delete('/:id', movieCtrl.deleteMovie);
+router.delete('/:id', movieCtrl.deleteMovie);
 
 module.exports = router;
