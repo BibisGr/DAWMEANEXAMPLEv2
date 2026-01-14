@@ -1,10 +1,13 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {ServiceMovieService} from '../../../service/service-movie.service';
 import {Movie} from '../../../common/interface-movie';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-movie-list',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './movie-list.component.html',
   styleUrl: './movie-list.component.css'
 })
