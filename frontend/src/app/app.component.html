@@ -1,7 +1,11 @@
 <div class="container-fluid">
-  <div class="d-flex">
-    <app-navbar/>
-    <router-outlet />
+  <div class="row d-flex">
+    <div class="col-3">
+      <app-navbar/>
+    </div>
+    <div class="col-9">
+      <router-outlet />
+    </div>
   </div>
   <app-footer/>
 </div>

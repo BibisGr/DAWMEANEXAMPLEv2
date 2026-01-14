@@ -8,7 +8,7 @@ import {InterfaceMovie, Movie} from '../common/interface-movie';
 })
 export class ServiceMovieService {
   private readonly http: HttpClient = inject(HttpClient);
-  private readonly URL_Base: string = 'http://localhost:3000/api/movies/';
+  private readonly URL_Base: string = 'http://localhost:3000/api/v/movies/';
 
   constructor() { }
   //todas las peliculas
