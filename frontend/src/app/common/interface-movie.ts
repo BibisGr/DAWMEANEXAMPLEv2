@@ -1,5 +1,8 @@
-export interface InterfaceMovie {
+export interface InterfaceMovies {
   status: Movie[]
+}
+export interface InterfaceMovie {
+  status: Movie
 }
 export interface Movie {
   imdb: Imdb

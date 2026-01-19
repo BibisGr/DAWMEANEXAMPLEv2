@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {InterfaceMovie, Movie} from '../common/interface-movie';
+import {InterfaceMovie, InterfaceMovies, Movie} from '../common/interface-movie';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +12,12 @@ export class ServiceMovieService {
 
   constructor() { }
   //todas las peliculas
-  getMovies():Observable<InterfaceMovie>{
-    return this.http.get<InterfaceMovie>(this.URL_Base)
+  getMovies():Observable<InterfaceMovies>{
+    return this.http.get<InterfaceMovies>(this.URL_Base)
   }
   //una pelicula
-  getMovie(id: string):Observable<Movie>{
-    return this.http.get<Movie>(this.URL_Base+ 'movie/'+ id)
+  getMovie(id: string):Observable<InterfaceMovie>{
+    return this.http.get<InterfaceMovie>(this.URL_Base+ 'movie/'+ id)
   }
   //nuevas funciones para el CRUD
 
