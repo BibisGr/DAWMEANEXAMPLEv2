@@ -1,10 +1,12 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ServiceMovieService} from '../../../service/service-movie.service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-movie-edit',
   imports: [
+    RouterLink
 
   ],
   templateUrl: './movie-edit.component.html',
