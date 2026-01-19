@@ -1,13 +1,11 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ServiceMovieService} from '../../../service/service-movie.service';
-import {RouterLink} from '@angular/router';
-
 @Component({
   selector: 'app-movie-edit',
   imports: [
-    RouterLink
-
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './movie-edit.component.html',
   styleUrl: './movie-edit.component.css'
@@ -87,5 +85,21 @@ export class MovieEditComponent implements OnInit{
       this.formMovie.reset();
       this.editar = false;
     }
+  }
+
+  addMovie() {
+
+  }
+
+  addNewGenre() {
+    let newGenre =  this.genres.value; // obtenemos los géneros actuales
+    newGenre.push(this.myNewGenres.get('newGenre')?.value); // añadimos el nuevo género
+    this.formMovie.setControl('genres', new FormControl(newGenre)); // actualizamos el control 'genres' del formulario
+    this.myNewGenres.reset() // limpiamos el campo del nuevo género
+  }
+
+  getGenreSelectSize(): number {
+    const genreCount = this.genres.value?.length || 0;
+    return Math.min(Math.max(genreCount, 5), 10); // Mínimo 5, máximo 10
   }
 }
