@@ -27,7 +27,7 @@ export class ServiceMovieService {
   }
   //editar pelicula
   updateMovie(movie: Movie):Observable<ApiResponse>{
-    return this.http.put<ApiResponse>(this.URL_Base+ 'movie/' + movie._id, movie);
+    return this.http.put<ApiResponse>(this.URL_Base+ movie._id, movie);
     //localhost:3000/api/movies/movie/6321f4e2e4b0f5b1c4d6a7e9
   }
   //eliminar pelicula

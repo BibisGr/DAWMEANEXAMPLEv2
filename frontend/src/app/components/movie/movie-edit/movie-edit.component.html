@@ -41,17 +41,24 @@
                  placeholder="plot">
           <label for="plot">Plot</label>
         </div>
+        <!--float para plot-->
+        <div class="form-floating mb-3">
+          <input type="text"
+                 formControlName="poster"
+                 class="form-control"
+                 id="poster"
+                 placeholder="poster">
+          <label for="poster">Poster</label>
+        </div>
         <!--float para genres-->
         <!--        componente para seleccionar generos-->
-        <div class="form-floating mb-3">
+        <div class="mb-3">
           <label for="genres">Genres</label>
           <select class="form-select"
                   id="genres"
                   multiple
                   formControlName="genres"
-                  fi
-                  [attr.size]="genres.length > 8 ? 8 : genres.length"
-                  aria-label="Genres">
+                  [attr.size]="genres.value?.length">
             @for (genero of genres.value; track $index) {
               <option value="{{genero}}">{{ genero }}</option>
             }
@@ -80,22 +87,34 @@
 
 
         <!--float para rating-->
-        <div class="form-floating mb-3">
-          <input type="number"
-                 formControlName="imdb.rating"
-                 class="form-control"
-                 id="rating"
-                 placeholder="rating">
-          <label for="title">Rating</label>
+        <div formGroupName="imdb">
+          <div class="form-floating mb-3">
+            <input type="number"
+                   formControlName="rating"
+                   class="form-control"
+                   id="rating"
+                   placeholder="rating">
+            <label for="title">Rating</label>
+          </div>
+          <!--float para votes-->
+          <div class="form-floating mb-3">
+            <input type="number"
+                   formControlName="votes"
+                   class="form-control"
+                   id="Votes"
+                   placeholder="votes">
+            <label for="title">Votes</label>
+          </div>
         </div>
-        <!--float para votes-->
-        <div class="form-floating mb-3">
-          <input type="number"
-                 formControlName="imdb.votes"
-                 class="form-control"
-                 id="Votes"
-                 placeholder="votes">
-          <label for="title">Votes</label>
+
+        <div class="d-flex justify-content-center">
+          <button type="submit"
+                  class="btn btn-success w-50"
+                  (click)="addMovie()"
+          >
+            {{editar? 'Actualizar Pelicula' : 'Agregar Nueva Película'}}
+          </button>
+
         </div>
 
       </ng-form>

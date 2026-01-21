@@ -1,6 +1,8 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ServiceMovieService} from '../../../service/service-movie.service';
+import {Router} from '@angular/router';
+
 @Component({
   selector: 'app-movie-edit',
   imports: [
@@ -12,9 +14,10 @@ import {ServiceMovieService} from '../../../service/service-movie.service';
 })
 export class MovieEditComponent implements OnInit{
   @Input("id") id!:string;
-
+  editar = false;
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly movieService: ServiceMovieService = inject(ServiceMovieService);
+  private readonly router : Router = inject(Router);
 
   formMovie : FormGroup = this.formBuilder.group({
     _id: [],
@@ -22,7 +25,7 @@ export class MovieEditComponent implements OnInit{
     year: [ new Date().getFullYear()],
     director: [''],
     plot: [''],
-    genres: [],
+    genres: [], //null => []
     poster: [''],
     imdb: this.formBuilder.group({
       rating: [0],
@@ -33,7 +36,7 @@ export class MovieEditComponent implements OnInit{
   myNewGenres: FormGroup = this.formBuilder.group({
     newGenre:['']
   });
-  editar = false;
+
 
   ngOnInit(): void {
     this.loadMovie();
@@ -88,18 +91,52 @@ export class MovieEditComponent implements OnInit{
   }
 
   addMovie() {
-
+    if (this.editar){
+      //editar pelicula
+      this.movieService.updateMovie(this.formMovie.getRawValue()).subscribe(
+        {
+          next:(data)=>{
+            console.log('Movie updated successfully', data);
+            //  console.log(this.formMovie.getRawValue());
+             this.router.navigate(['/movies/list'])
+            //redirige a la lista de peliculas (componente MovieList) luego de actualizar
+          },
+          error:(err)=>{
+            console.error('Error updating movie', err);
+          },
+          complete:()=> {
+            console.log('Update movie request completed');
+          }
+        }
+      )
+    } else {
+      //añadir pelicula
+      this.movieService.addMovie(this.formMovie.getRawValue()).subscribe(
+        {
+          next:(data)=>{
+            console.log('Movie added successfully', data);
+            this.router.navigate(['/movies/list'])
+            //redirige a la lista de peliculas (componente MovieList) luego de actualizar
+          },
+          error:(err)=>{
+            console.error('Error updating movie', err);
+          },
+          complete:()=> {
+            console.log('Update movie request completed');
+          }
+        }
+      )
+    }
   }
 
   addNewGenre() {
     let newGenre =  this.genres.value; // obtenemos los géneros actuales
+    if (!newGenre){
+      newGenre = []
+    }
+
     newGenre.push(this.myNewGenres.get('newGenre')?.value); // añadimos el nuevo género
     this.formMovie.setControl('genres', new FormControl(newGenre)); // actualizamos el control 'genres' del formulario
     this.myNewGenres.reset() // limpiamos el campo del nuevo género
-  }
-
-  getGenreSelectSize(): number {
-    const genreCount = this.genres.value?.length || 0;
-    return Math.min(Math.max(genreCount, 5), 10); // Mínimo 5, máximo 10
   }
 }
