@@ -1,5 +1,5 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ServiceMovieService} from '../../../service/service-movie.service';
 import {Router} from '@angular/router';
 
@@ -15,14 +15,22 @@ import {Router} from '@angular/router';
 export class MovieEditComponent implements OnInit{
   @Input("id") id!:string;
   editar = false;
+  genreList: string[] = [];
+
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly movieService: ServiceMovieService = inject(ServiceMovieService);
   private readonly router : Router = inject(Router);
 
   formMovie : FormGroup = this.formBuilder.group({
     _id: [],
-    title: [''],
-    year: [ new Date().getFullYear()],
+    title: ['', [Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(200)]],
+    year: [ new Date().getFullYear(), [
+      Validators.required,
+      Validators.min(1880),
+      Validators.max(new Date().getFullYear())
+    ]],
     director: [''],
     plot: [''],
     genres: [], //null => []
@@ -67,6 +75,10 @@ export class MovieEditComponent implements OnInit{
     return this.formMovie.get('imdb.votes');
   }
 
+  get newGenre():any {
+    return this.myNewGenres.get('newGenre');
+  }
+
   private loadMovie() {
     if (this.id) {
       //editamos peli, rellenamos el formulario
@@ -88,6 +100,11 @@ export class MovieEditComponent implements OnInit{
       this.formMovie.reset();
       this.editar = false;
     }
+    this.movieService.getGenres().subscribe({
+      next:(data)=>{
+        this.genreList = data.status
+      }
+    })
   }
 
   addMovie() {
@@ -130,13 +147,18 @@ export class MovieEditComponent implements OnInit{
   }
 
   addNewGenre() {
-    let newGenre =  this.genres.value; // obtenemos los géneros actuales
+    let newGenre;  // obtenemos los géneros actuales
     if (!newGenre){
-      newGenre = []
+      newGenre = [];
     }
-
-    newGenre.push(this.myNewGenres.get('newGenre')?.value); // añadimos el nuevo género
-    this.formMovie.setControl('genres', new FormControl(newGenre)); // actualizamos el control 'genres' del formulario
+    if(!this.editar){
+      this.genreList.push(this.myNewGenres.value)
+    } else{
+      newGenre = this.genres.value;
+      newGenre.push(this.newGenre.value) // añadimos el nuevo género
+      this.genreList.push(this.newGenre.value);
+      this.formMovie.setControl('genres', new FormControl(newGenre)); // actualizamos el control 'genres' del formulario
+    }
     this.myNewGenres.reset() // limpiamos el campo del nuevo género
   }
 }

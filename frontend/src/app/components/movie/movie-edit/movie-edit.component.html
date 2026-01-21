@@ -59,7 +59,7 @@
                   multiple
                   formControlName="genres"
                   [attr.size]="genres.value?.length">
-            @for (genero of genres.value; track $index) {
+            @for (genero of genreList; track $index) {
               <option value="{{genero}}">{{ genero }}</option>
             }
           </select>

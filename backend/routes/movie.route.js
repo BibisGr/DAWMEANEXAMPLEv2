@@ -8,4 +8,6 @@ router.post('/', movieCtrl.addMovie);
 router.put('/:id', movieCtrl.updateMovie);
 router.delete('/:id', movieCtrl.deleteMovie);
 
+router.get('/genres', movieCtrl.getGenres); // New route to get all genres
+
 module.exports = router;

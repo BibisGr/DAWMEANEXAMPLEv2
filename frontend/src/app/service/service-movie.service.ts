@@ -35,8 +35,15 @@ export class ServiceMovieService {
     return this.http.delete<ApiResponse>(this.URL_Base + id);
   }
 
+  getGenres():Observable<ApiResponseGenres>{
+    return this.http.get<ApiResponseGenres>(this.URL_Base + 'genres')
+  }
 }
 
 export interface ApiResponse{
   status: string;
+}
+
+export interface ApiResponseGenres{
+  status: string[];
 }
